@@ -14,15 +14,20 @@ https://github.com/stanislav-zeman/talks
 
 ## Goal
 
+- *"introduction"*
 - get a basic sense of DDD
 - cover key components
 - won't go in depth
+- you won't become DDD experts
 - starting point
 
 ## Outline
 
 - origins of DDD
 - DDD key components
+    - ubiquitous language
+    - strategic design
+    - tactical design
 - event storming
 - sample apps
 
@@ -32,6 +37,7 @@ https://github.com/stanislav-zeman/talks
 
 - a software design approach
 - maintanable and scalable software
+- set of practices, patterns and philosophy
 - focus on communication
     - common root cause of project failures
 - not a cookbook

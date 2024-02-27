@@ -1,5 +1,6 @@
 # Introduction to DDD
-4 Feb 2024
+Go Meetup Brno
+28 Feb 2024
 Tags: DDD
 
 Stanislav Zeman <zeman@standa.dev>
@@ -7,4 +8,330 @@ Backend Developer, ModernTV s.r.o.
 https://standa.dev
 https://github.com/stanislav-zeman/talks
 
-## TODO
+## About me
+
+## Why DDD?
+
+## Goal
+
+- get a basic sense of DDD
+- cover key components
+- won't go in depth
+- starting point
+
+## Outline
+
+- origins of DDD
+- DDD key components
+- event storming
+- sample apps
+
+## Quick Survey
+
+## Domain-Driven Design
+
+- a software design approach
+- maintanable and scalable software
+- focus on communication
+    - common root cause of project failures
+- not a cookbook
+
+## Origins
+
+- Eric Evans [2003]
+- [**"The Blue Book"**](https://www.oreilly.com/library/view/domain-driven-design-tackling/0321125215/)
+
+.image assets/introduction-to-ddd/the-blue-book.jpg 400 _
+
+## Reference
+
+- [**"The Red Book"**](https://www.domainlanguage.com/wp-content/uploads/2016/05/DDD_Reference_2015-03.pdf)
+
+.image assets/introduction-to-ddd/the-red-book.jpg 450 _
+
+## The Three Pillars of DDD
+
+- ubiquitous language
+- strategic design
+- tactical design
+
+##
+
+.image assets/introduction-to-ddd/evans-ddd-graph.webp 580 _
+
+## Ubiquitous Language
+
+## Ubiquitous Language
+
+- common language shared through-out the business
+- use same terminology
+- must be precise and consistent
+    - synonymous and ambiguous terms
+    - glossary
+    - a shared effort
+- domain experts & domain knowledge
+- sharing across all stakeholders
+- evolves
+
+## Traditional Knowledge Flow
+
+*Telephone*
+
+.image assets/introduction-to-ddd/traditional-knowledge-sharing-flow.excalidraw.svg 350 _
+
+##
+
+.image assets/introduction-to-ddd/plod-language-business.png 500 _
+
+[Michael Plod: Getting modules right with Domain-driven Design](https://www.youtube.com/watch?v=Q_0XW46IlHY) [Spring I/O, 2022]
+
+##
+
+.image assets/introduction-to-ddd/plod-language-code.png 500 _
+
+[Michael Plöd: Getting modules right with Domain-driven Design](https://www.youtube.com/watch?v=Q_0XW46IlHY) [Spring I/O, 2022]
+
+## Strategic Design
+
+## Strategic Design
+
+- analysis of business domains and strategy
+- *"what"* & *"why"*
+
+- patterns:
+    - domain
+    - subdomain
+    - bounded context
+
+## Domain
+
+- focus of business
+
+## Subdomain
+
+- fine-grained area of business activity
+- company can operate in multiple domains
+- Amazon, ...
+
+## Domain Types
+
+- can change as domains evolve
+- help make design decisions
+- types:
+    - core domain
+    - supporting domain
+    - generic domain
+
+## Core Subdomain
+
+- brings in money
+- provides a competitive advantage
+- center of bussines
+- complex invariants and rules
+- built in-house
+
+## Supporting Subdomain
+
+- support core subdomains
+- usually CRUD apps
+- built in-house or can be out-sourced
+
+## Generic Subdomain
+
+- generic systems
+- no need for inovation
+- buy existing or integrate OS solution
+- CMS, CRM systems ...
+
+##
+
+.image assets/introduction-to-ddd/domain-types-graph.excalidraw.svg 
+
+## Identifing domains
+
+- company departments
+- a retail shop:
+    - marketing
+    - finance
+    - customer service
+    - shipping
+    - warehouse
+    - ...
+
+## Identifing domains
+
+- customer service:
+    - help desk system
+    - shift management
+    - telephone system
+    - ...
+- more can be discovered later
+
+##
+
+.image assets/introduction-to-ddd/customer-service.excalidraw.svg 550 _
+
+##
+
+.image assets/introduction-to-ddd/shared-product.excalidraw.svg 550 _
+
+##
+
+.image assets/introduction-to-ddd/product-bounded-contexts.excalidraw.svg 550 _
+
+## Bounded Context
+
+- divides ubiquitous language
+- relates to business in a specific area
+- designed
+- protects models
+- specifies physical boundaries
+    - service/project
+    - single team
+
+## Relationships
+
+- cooperation (symetric)
+    - partnership
+    - shared kernel
+- customer-supplier (assymetric)
+    - customer-supplier
+    - conformist
+    - open-host service, published language
+    - anticorruption layer
+
+## Partnership
+
+- changes are in ad-hoc manner
+- dependent sets of goals
+- frequents synchronizastions and communication
+- no team dictates the contracts
+
+.image assets/introduction-to-ddd/partnership.excalidraw.svg 200 _
+
+## Shared Kernel
+
+- shared code between teams
+    - monorepo
+    - library
+- sharing should be minimal
+
+.image assets/introduction-to-ddd/shared-kernel.excalidraw.svg 200 _
+
+**...Separate Ways**
+
+## Customer-Supplier
+
+- cooperation between teams
+- upstream team reflects requirements of downstream team
+
+.image assets/introduction-to-ddd/customer-supplier.excalidraw.svg 200 _
+
+## Conformist
+
+- upstream is no longer capable of supporting downstream team
+- the downstream teams conforms to the upstream
+
+.image assets/introduction-to-ddd/conformist.excalidraw.svg 200 _
+
+## Open Host Service
+
+- service defines a protocol or interface
+- contract:
+    - XML schema
+    - OpenAPI spec
+    - GraphQL schema
+    - Protobuf
+- often goes along with **Published Language**
+
+.image assets/introduction-to-ddd/open-host-service.excalidraw.svg 200 _
+
+## Anticorruption layer
+
+- defensive pattern
+- protects bounded context 
+- keeps it isolated from foreign models
+- can be implemented as proxy
+
+.image assets/introduction-to-ddd/anti-corruption-layer.excalidraw.svg 200 _
+
+## Context Map
+
+- specifies relationships between bounded contexts
+
+##
+
+.image assets/introduction-to-ddd/context-map.excalidraw.svg 600 _
+
+## Tactical Design
+
+## Tactical Design
+
+- more code focused
+- helps us write software which reflects the business domain
+- *"how"*
+
+## Value Object
+
+- read-only object
+- used to describe, quantify and measure entities
+
+```
+type Address struct {
+    Street string
+    HouseNumber string
+    ZIPCode int
+    Country string
+}
+```
+
+## Entity
+
+- domain model object
+- identity
+- can change
+
+```
+type Customer struct {
+    Id uuid.UUID
+    Name string
+    Surname string
+    Address Address
+}
+```
+
+## Aggregate
+
+- couple of interconnected objects
+- single aggregate root 
+- transaction boundary
+- does not cross bounded context boundary
+- other agreggates are refenced by identity
+- updates across aggregates are done using eventual consistency
+
+## Domain Event
+
+- Command
+- Query
+
+## Conclusion
+
+- depends on abstractions
+- applying all practices usually makes sense for large projects
+
+##
+
+.image assets/introduction-to-ddd/oreilly-learning-ddd.jpg 550 _
+
+## References
+
+- [Vlad Khonovov: Learning Domain-Driven Design](https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/) [O'Reilly, 2021]
+- [Eric Evans: Domain-Driven Design: Tacking software complexity](https://www.oreilly.com/library/view/domain-driven-design-tackling/0321125215/) [Addison-Wesley Professional, 2003]
+- [Eric Evans: Domaind-Driven Design Reference: Definitions and Pattern Summaries](https://www.domainlanguage.com/wp-content/uploads/2016/05/DDD_Reference_2015-03.pdf) [Addison-Wesley Professional, 2015]
+- [Matthew Boyle: Domain-Driven Desing with Golang](https://www.packtpub.com/product/domain-driven-design-with-golang/9781804613450) [Packt, 2022]
+- [Lukáš Grolig: Software Architectures](https://is.muni.cz/predmet/fi/podzim2023/PV293) [FI MUNI, 2023]
+- [Awesome Go Educations](https://mehdihadeli.github.io/awesome-go-education/ddd/)
+- [ThreeDotsLab: Wild Wourkouts Go DDD example](https://github.com/ThreeDotsLabs/wild-workouts-go-ddd-example/tree/master)
+- [Domain-Driven Design Crew](https://github.com/ddd-crew)
+
+## Q & A

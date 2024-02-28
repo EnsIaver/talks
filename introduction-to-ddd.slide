@@ -30,7 +30,7 @@ https://github.com/stanislav-zeman/talks
     - tactical design
 - event storming
 - architecture patterns
-- sample apps
+- sample app
 
 ## Quick Survey
 
@@ -410,9 +410,282 @@ type TicketResolvedEvent {
 
 .image assets/introduction-to-ddd/cqrs.excalidraw.svg 550 _
 
+## Sample
+
+## ThreeDotsLab: Wild Wourkouts Go DDD example
+
+- [https://github.com/ThreeDotsLabs/wild-workouts-go-ddd-example](https://github.com/ThreeDotsLabs/wild-workouts-go-ddd-example)
+- continuous refactorings with articles
+- DDD, Clean Architecture & CQRS
+- Domain: Workout information system. Users can schedule trainings with their trainers. Trainers can set their availability via a calendar.
+- Bounded Context: Reservation System
+- 3 microservices:
+    - trainers
+    - **trainings**
+    - users
+
+## Structure
+
+- **/internal**
+    - directory for each service
+    - shared **common** directory
+        - decorators, middleware
+        - logs, genproto, errors
+- each service
+    - **adapters** (infrastructure)
+    - **app** (app)
+    - **domain** (domain)
+    - **ports**
+    - **service**
+
+## Domain: Training Domain Model
+
+```
+type Training struct {
+	uuid string
+	userUUID string
+	userName string
+	time  time.Time
+	notes string
+	proposedNewTime time.Time
+	moveProposedBy  UserType
+	canceled bool
+}
+```
+
+```
+func (t *Training) RescheduleTraining(newTime time.Time) error {
+	if !t.CanBeCanceledForFree() {
+		err := CantRescheduleBeforeTimeError{
+			TrainingTime: t.Time(),
+		}
+		return errors.WithStack(err)
+	}
+
+	t.time = newTime
+
+	return nil
+}
+```
+
+## Domain: Repository
+
+```
+type NotFoundError struct {
+	TrainingUUID string
+}
+
+func (e NotFoundError) Error() string {
+	return fmt.Sprintf("training '%s' not found", e.TrainingUUID)
+}
+
+type Repository interface {
+	AddTraining(ctx context.Context, tr *Training) error
+
+	GetTraining(ctx context.Context, trainingUUID string, user User) (*Training, error)
+
+	UpdateTraining(
+		ctx context.Context,
+		trainingUUID string,
+		user User,
+		updateFn func(ctx context.Context, tr *Training) (*Training, error),
+	) error
+}
+```
+
+## App: Application
+
+- **query** and **comand** directories
+
+```
+type Application struct {
+	Commands Commands
+	Queries  Queries
+}
+
+type Commands struct {
+	ApproveTrainingReschedule command.ApproveTrainingRescheduleHandler
+	CancelTraining            command.CancelTrainingHandler
+	RejectTrainingReschedule  command.RejectTrainingRescheduleHandler
+	RescheduleTraining        command.RescheduleTrainingHandler
+	RequestTrainingReschedule command.RequestTrainingRescheduleHandler
+	ScheduleTraining          command.ScheduleTrainingHandler
+}
+
+type Queries struct {
+	AllTrainings     query.AllTrainingsHandler
+	TrainingsForUser query.TrainingsForUserHandler
+}
+```
+
+## App: Reschedule Training Command
+
+```
+type RescheduleTraining struct {
+	TrainingUUID string
+	NewTime      time.Time
+
+	User training.User
+
+	NewNotes string
+}
+
+type RescheduleTrainingHandler decorator.CommandHandler[RescheduleTraining]
+
+type rescheduleTrainingHandler struct {
+	repo           training.Repository
+	userService    UserService
+	trainerService TrainerService
+}
+```
+
+## App: Reschedule Training Command Handler - Constructor
+
+```
+func NewRescheduleTrainingHandler(
+	repo training.Repository,
+	userService UserService,
+	trainerService TrainerService,
+	logger *logrus.Entry,
+	metricsClient decorator.MetricsClient,
+) RescheduleTrainingHandler {
+	if repo == nil {
+		panic("nil repo")
+	}
+	if userService == nil {
+		panic("nil userService")
+	}
+	if trainerService == nil {
+		panic("nil trainerService")
+	}
+
+	return decorator.ApplyCommandDecorators[RescheduleTraining](
+		rescheduleTrainingHandler{repo: repo, userService: userService, trainerService: trainerService},
+		logger,
+		metricsClient,
+	)
+}
+```
+
+## App: Reschedule Training Command - Handle
+
+```
+func (h rescheduleTrainingHandler) Handle(ctx context.Context, cmd RescheduleTraining) (err error) {
+	defer func() {
+		logs.LogCommandExecution("RescheduleTraining", cmd, err)
+	}()
+	return h.repo.UpdateTraining(
+		ctx,
+		cmd.TrainingUUID,
+		cmd.User,
+		func(ctx context.Context, tr *training.Training) (*training.Training, error) {
+			originalTrainingTime := tr.Time()
+			if err := tr.UpdateNotes(cmd.NewNotes); err != nil {
+				return nil, err
+			}
+			if err := tr.RescheduleTraining(cmd.NewTime); err != nil {
+				return nil, err
+			}
+			err := h.trainerService.MoveTraining(ctx, cmd.NewTime, originalTrainingTime)
+			if err != nil {
+				return nil, err
+			}
+			return tr, nil
+		},
+	)
+}
+```
+
+## Service: Aplication Service
+
+```
+type HttpServer struct {
+	app app.Application
+}
+
+func (h HttpServer) RescheduleTraining(w http.ResponseWriter, r *http.Request, trainingUUID string) {
+	rescheduleTraining := PostTraining{}
+	if err := render.Decode(r, &rescheduleTraining); err != nil {
+		httperr.BadRequest("invalid-request", err, w, r)
+		return
+	}
+	user, err := newDomainUserFromAuthUser(r.Context())
+	if err != nil {
+		httperr.RespondWithSlugError(err, w, r)
+		return
+	}
+	err = h.app.Commands.RescheduleTraining.Handle(r.Context(), command.RescheduleTraining{
+		User:         user,
+		TrainingUUID: trainingUUID,
+		NewTime:      rescheduleTraining.Time,
+		NewNotes:     rescheduleTraining.Notes,
+	})
+    // error handling...
+}
+```
+
+## Infrastructure: Training Firebase Repository
+
+```
+type TrainingModel struct {
+	UUID     string `firestore:"Uuid"`
+	UserUUID string `firestore:"UserUuid"`
+	User     string `firestore:"User"`
+
+	Time  time.Time `firestore:"Time"`
+	Notes string    `firestore:"Notes"`
+
+	ProposedTime   *time.Time `firestore:"ProposedTime"`
+	MoveProposedBy *string    `firestore:"MoveProposedBy"`
+
+	Canceled bool `firestore:"Canceled"`
+}
+
+type TrainingsFirestoreRepository struct {
+	firestoreClient *firestore.Client
+}
+```
+
+## Infrastructure: Training Firebase Repository
+
+```
+func (r TrainingsFirestoreRepository) UpdateTraining(ctx context.Context, trainingUUID string,
+	user training.User, updateFn func(ctx context.Context, tr *training.Training) (*training.Training, error),
+) error {
+	trainingsCollection := r.trainingsCollection()
+	return r.firestoreClient.RunTransaction(ctx, func(ctx context.Context, tx *firestore.Transaction) error {
+		documentRef := trainingsCollection.Doc(trainingUUID)
+		firestoreTraining, err := tx.Get(documentRef)
+		if err != nil {
+			return errors.Wrap(err, "unable to get actual docs")
+		}
+		tr, err := r.unmarshalTraining(firestoreTraining)
+		if err != nil {
+			return err
+		}
+		if err := training.CanUserSeeTraining(user, *tr); err != nil {
+			return err
+		}
+		updatedTraining, err := updateFn(ctx, tr)
+		if err != nil {
+			return err
+		}
+		return tx.Set(documentRef, r.marshalTraining(updatedTraining))
+	})
+}
+```
+
 ## Conclusion
 
-- abstractions
+- pros:
+    - better communication
+    - flexibility
+    - maintainability (single place for domain logic)
+- cons:
+    - domain experts
+    - more communication
+    - time & cost
+    - abstractions
 - makes sense for large projects
 
 ##
@@ -427,7 +700,6 @@ type TicketResolvedEvent {
 - [Matthew Boyle: Domain-Driven Desing with Golang](https://www.packtpub.com/product/domain-driven-design-with-golang/9781804613450) [Packt, 2022]
 - [Lukáš Grolig: Software Architectures](https://is.muni.cz/predmet/fi/podzim2023/PV293) [FI MUNI, 2023]
 - [Awesome Go Educations](https://mehdihadeli.github.io/awesome-go-education/ddd/)
-- [Simon Klinkert: Go-DDD: Domain Driven Design Template in Golang](https://github.com/sklinkert/go-ddd/tree/master)
 - [ThreeDotsLab: Wild Wourkouts Go DDD example](https://github.com/ThreeDotsLabs/wild-workouts-go-ddd-example/tree/master)
 - [ThreeDotsLab: Go With The Domain](https://threedots.tech/go-with-the-domain/)
 - [Domain-Driven Design Crew](https://github.com/ddd-crew)

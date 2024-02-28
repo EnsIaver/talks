@@ -44,12 +44,16 @@ https://github.com/stanislav-zeman/talks
 
 ## Origins
 
-- Eric Evans [2003]
+- [Martin Fowler: Pattern of Enterprise Application Architecture](https://martinfowler.com/books/eaa.html) [2002]
+- Eric Evans: Domain-Driven Design: Tackling Complexity in the Heart of Software [2003]
+
+## Origins
+
 - [**"The Blue Book"**](https://www.oreilly.com/library/view/domain-driven-design-tackling/0321125215/)
 
-.image assets/introduction-to-ddd/the-blue-book.jpg 400 _
+.image assets/introduction-to-ddd/the-blue-book.jpg 450 _
 
-## Reference
+## Origins
 
 - [**"The Red Book"**](https://www.domainlanguage.com/wp-content/uploads/2016/05/DDD_Reference_2015-03.pdf)
 
@@ -273,35 +277,56 @@ https://github.com/stanislav-zeman/talks
 
 ## Tactical Design
 
-- more code focused
+- code focused
 - helps us write software which reflects the business domain
+    - tighly relate code to business domain models
 - *"how"*
+- patterns:
+    - value object
+    - entity
+    - aggregate
+    - event
+    - service
+
+## Domain Model
+
+- object model
+- both behavior and data
+- focus on implementing business logic
+- building blocks:
+    - value objects
+    - entities
+    - aggregates
+
+\
+*Help desk system*
 
 ## Value Object
 
-- read-only object
-- used to describe, quantify and measure entities
+- immutable objects
+- identified by it's values
+- used to describe, quantify or measure entities
 
 ```
-type Address struct {
-    Street string
-    HouseNumber string
-    ZIPCode int
-    Country string
+type Colour struct {
+    Red uint8
+    Green uint8
+    Buil uint8
 }
 ```
 
 ## Entity
 
-- domain model object
 - identity
-- can change
+- identified by its identity
+- mutable
 
 ```
 type Customer struct {
     Id uuid.UUID
     Name string
     Surname string
+    Email string
     Address Address
 }
 ```
@@ -310,15 +335,48 @@ type Customer struct {
 
 - couple of interconnected objects
 - single aggregate root 
+- enforces consistency of its data
+- only aggregate itself can change its state
 - transaction boundary
 - does not cross bounded context boundary
 - other agreggates are refenced by identity
+- aggregate public interface methods are referred to as commands
 - updates across aggregates are done using eventual consistency
+
+## 
+
+.image assets/introduction-to-ddd/aggregate.excalidraw.svg 550 _
+
+## 
+
+.image assets/introduction-to-ddd/aggregate-consistency.excalidraw.svg 550 _
 
 ## Domain Event
 
-- Command
-- Query
+- significant event that occured
+- part of aggregates public API
+- past tense
+
+```
+type TicketResolvedEvent {
+    TicketID uuid.UUID
+    EventID uuid.UUID
+    OpenedAt time.Time
+    ResolvedAt time.Time
+}
+```
+
+- **event sourcing**
+
+##
+
+.image assets/introduction-to-ddd/aggregate-events.excalidraw.svg 550 _
+
+## Domain Service
+
+- stateless object
+- abstracts common logic
+- coordinates logic relevant to multiple aggregates
 
 ## Conclusion
 
@@ -338,6 +396,7 @@ type Customer struct {
 - [Lukáš Grolig: Software Architectures](https://is.muni.cz/predmet/fi/podzim2023/PV293) [FI MUNI, 2023]
 - [Awesome Go Educations](https://mehdihadeli.github.io/awesome-go-education/ddd/)
 - [ThreeDotsLab: Wild Wourkouts Go DDD example](https://github.com/ThreeDotsLabs/wild-workouts-go-ddd-example/tree/master)
+- [ThreeDotsLab: Go With The Domain](https://threedots.tech/go-with-the-domain/)
 - [Domain-Driven Design Crew](https://github.com/ddd-crew)
 
 ## Q & A

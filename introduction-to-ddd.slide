@@ -47,7 +47,6 @@ https://github.com/stanislav-zeman/talks
 - set of practices, patterns and philosophy
 - focus on communication
     - common root cause of project failures
-- not a cookbook
 
 ## Origins
 
@@ -310,8 +309,9 @@ https://github.com/stanislav-zeman/talks
     - value objects
     - entities
     - aggregates
+    - event
+    - service
 
-\
 *Help desk system*
 
 ## Value Object

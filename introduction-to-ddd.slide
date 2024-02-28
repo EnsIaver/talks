@@ -378,10 +378,24 @@ type TicketResolvedEvent {
 - abstracts common logic
 - coordinates logic relevant to multiple aggregates
 
+## Architectural Patterns
+
+## Layered Architecture
+
+.image assets/introduction-to-ddd/layered-architecture.excalidraw.svg 550 _
+
+## Ports & Adapters
+
+.image assets/introduction-to-ddd/ports-and-adapters.excalidraw.svg 550 _
+
+## CQRS
+
+.image assets/introduction-to-ddd/cqrs.excalidraw.svg 550 _
+
 ## Conclusion
 
-- depends on abstractions
-- applying all practices usually makes sense for large projects
+- abstractions
+- makes sense for large projects
 
 ##
 
@@ -395,6 +409,7 @@ type TicketResolvedEvent {
 - [Matthew Boyle: Domain-Driven Desing with Golang](https://www.packtpub.com/product/domain-driven-design-with-golang/9781804613450) [Packt, 2022]
 - [Lukáš Grolig: Software Architectures](https://is.muni.cz/predmet/fi/podzim2023/PV293) [FI MUNI, 2023]
 - [Awesome Go Educations](https://mehdihadeli.github.io/awesome-go-education/ddd/)
+- [Simon Klinkert: Go-DDD: Domain Driven Design Template in Golang](https://github.com/sklinkert/go-ddd/tree/master)
 - [ThreeDotsLab: Wild Wourkouts Go DDD example](https://github.com/ThreeDotsLabs/wild-workouts-go-ddd-example/tree/master)
 - [ThreeDotsLab: Go With The Domain](https://threedots.tech/go-with-the-domain/)
 - [Domain-Driven Design Crew](https://github.com/ddd-crew)

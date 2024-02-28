@@ -62,9 +62,16 @@ https://github.com/stanislav-zeman/talks
 
 ## Origins
 
-- [**"The Red Book"**](https://www.domainlanguage.com/wp-content/uploads/2016/05/DDD_Reference_2015-03.pdf)
+- [**"Reference"**](https://www.domainlanguage.com/wp-content/uploads/2016/05/DDD_Reference_2015-03.pdf)
 
 .image assets/introduction-to-ddd/the-red-book.jpg 450 _
+
+## Origins
+
+- Vaughn Vernon [2013]
+- [**"The Red Book"**](https://www.amazon.com/Implementing-Domain-Driven-Design-Vaughn-Vernon/dp/0321834577)
+
+.image assets/introduction-to-ddd/vernon-ddd.jpg 450 _
 
 ## The Three Pillars of DDD
 
@@ -150,7 +157,7 @@ https://github.com/stanislav-zeman/talks
 
 - support core subdomains
 - usually CRUD apps
-- built in-house or can be out-sourced
+- built in-house or out-sourced
 
 ## Generic Subdomain
 
@@ -169,7 +176,7 @@ https://github.com/stanislav-zeman/talks
 - a retail shop:
     - marketing
     - finance
-    - customer service
+    - **customer service**
     - shipping
     - warehouse
     - ...

@@ -29,6 +29,7 @@ https://github.com/stanislav-zeman/talks
     - strategic design
     - tactical design
 - event storming
+- architecture patterns
 - sample apps
 
 ## Quick Survey
@@ -377,6 +378,23 @@ type TicketResolvedEvent {
 - stateless object
 - abstracts common logic
 - coordinates logic relevant to multiple aggregates
+
+## Event Storming
+
+## Event Storming Workshop
+
+- Alberto Brandolini [2013]
+- exploring business domains
+
+##
+
+.image assets/introduction-to-ddd/event-storming-insurance.jpg 400 _
+
+[Context Mapper: Model Event Storming Results](https://contextmapper.org/docs/event-storming/)
+
+##
+
+.image assets/introduction-to-ddd/event-storming-wall.png 325 _
 
 ## Architectural Patterns
 

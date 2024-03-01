@@ -1,6 +1,6 @@
 # Talks
 
-This repository contains a collection of talk slides and other materials.
+This repository contains a collection of talk slides and other related materials.
 
 ## Content
 

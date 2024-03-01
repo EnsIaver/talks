@@ -1,10 +1,10 @@
 # Talks
 
-This repository contains talk slides and other materials.
+This repository contains a collection of talk slides and other materials.
 
 ## Content
 
-1. Introduction to DDD
+1. [Introduction to DDD](introduction-to-ddd.slide)
 
 ## Tooling
 

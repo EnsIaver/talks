@@ -23,7 +23,7 @@ https://github.com/stanislav-zeman/talks
 - *"introduction"*
 - get a basic sense of DDD
 - cover key components
-- won't go in depth
+- won't go in-depth
 - you won't become DDD experts
 - starting point
 
@@ -43,10 +43,10 @@ https://github.com/stanislav-zeman/talks
 ## Domain-Driven Design
 
 - a software design approach
-- maintanable and scalable software
-- set of practices, patterns and philosophy
+- maintainable and scalable software
+- set of practices, patterns, and philosophy
 - focus on communication
-    - common root cause of project failures
+    - the common root cause of project failures
 
 ## Origins
 
@@ -86,8 +86,8 @@ https://github.com/stanislav-zeman/talks
 
 ## Ubiquitous Language
 
-- common language shared through-out the business
-- use same terminology
+- common language shared throughout the business
+- use the same terminology
 - must be precise and consistent
     - synonymous and ambiguous terms
     - glossary
@@ -133,7 +133,7 @@ https://github.com/stanislav-zeman/talks
 ## Subdomain
 
 - fine-grained area of business activity
-- company can operate in multiple domains
+- a company can operate in multiple domains
 
 ## Domain Types
 
@@ -146,9 +146,9 @@ https://github.com/stanislav-zeman/talks
 
 ## Core Subdomain
 
+- the center of business
 - brings in money
 - provides a competitive advantage
-- center of business
 - complex invariants and rules
 - built in-house
 
@@ -161,7 +161,7 @@ https://github.com/stanislav-zeman/talks
 ## Generic Subdomain
 
 - generic systems
-- no need for inovation
+- no need for innovation
 - buy existing or integrate OS solution
 - CMS, CRM systems ...
 
@@ -169,7 +169,7 @@ https://github.com/stanislav-zeman/talks
 
 .image assets/introduction-to-ddd/domain-types-graph.excalidraw.svg 
 
-## Identifing domains
+## Identifying domains
 
 - company departments
 - a retail shop:
@@ -180,7 +180,7 @@ https://github.com/stanislav-zeman/talks
     - warehouse
     - ...
 
-## Identifing domains
+## Identifying domains
 
 - customer service:
     - help desk system
@@ -213,10 +213,10 @@ https://github.com/stanislav-zeman/talks
 
 ## Relationships
 
-- cooperation (symetric)
+- cooperation (symmetric)
     - partnership
     - shared kernel
-- customer-supplier (assymetric)
+- customer-supplier (asymmetric)
     - customer-supplier
     - conformist
     - open-host service, published language
@@ -224,9 +224,9 @@ https://github.com/stanislav-zeman/talks
 
 ## Partnership
 
-- changes are in ad-hoc manner
+- changes are in an ad-hoc manner
 - dependent sets of goals
-- frequents synchronizastions and communication
+- frequent synchronizations and communication
 - no team dictates the contracts
 
 .image assets/introduction-to-ddd/partnership.excalidraw.svg 200 _
@@ -245,14 +245,14 @@ https://github.com/stanislav-zeman/talks
 ## Customer-Supplier
 
 - cooperation between teams
-- upstream team reflects requirements of downstream team
+- the upstream team reflects the requirements of the downstream team
 
 .image assets/introduction-to-ddd/customer-supplier.excalidraw.svg 200 _
 
 ## Conformist
 
-- upstream is no longer capable of supporting downstream team
-- the downstream teams conforms to the upstream
+- upstream is no longer capable of supporting the downstream team
+- the downstream team conforms to the upstream
 
 .image assets/introduction-to-ddd/conformist.excalidraw.svg 200 _
 
@@ -273,7 +273,7 @@ https://github.com/stanislav-zeman/talks
 - defensive pattern
 - protects bounded context 
 - keeps it isolated from foreign models
-- can be implemented as proxy
+- can be implemented as a proxy
 
 .image assets/introduction-to-ddd/anti-corruption-layer.excalidraw.svg 200 _
 
@@ -290,8 +290,8 @@ https://github.com/stanislav-zeman/talks
 ## Tactical Design
 
 - code focused
-- helps us write software which reflects the business domain
-    - tighly relate code to business domain models
+- helps us write software that reflects the business domain
+    - tightly relate code to business domain models
 - *"how"*
 - patterns:
     - value object
@@ -318,7 +318,7 @@ https://github.com/stanislav-zeman/talks
 
 - immutable objects
 - identified by it's values
-- used to describe, quantify or measure entities
+- used to describe, quantify, or measure entities
 
 ```
 type Colour struct {
@@ -346,13 +346,13 @@ type Customer struct {
 
 ## Aggregate
 
-- couple of interconnected objects
+- a couple of interconnected objects
 - single aggregate root 
 - enforces consistency of its data
-- only aggregate itself can change its state
+- only the aggregate itself can change its state
 - transaction boundary
 - does not cross bounded context boundary
-- other agreggates are refenced by identity
+- other aggregates are referenced by their identity
 - aggregate public interface methods are referred to as commands
 - updates across aggregates are done using eventual consistency
 
@@ -366,7 +366,7 @@ type Customer struct {
 
 ## Domain Event
 
-- significant event that occured
+- a significant event that occurred
 - part of aggregates public API
 - past tense
 
@@ -424,7 +424,7 @@ type TicketResolvedEvent {
 
 ## Sample
 
-## ThreeDotsLab: Wild Wourkouts Go DDD example
+## ThreeDotsLab: Wild Workouts Go DDD example
 
 - [https://github.com/ThreeDotsLabs/wild-workouts-go-ddd-example](https://github.com/ThreeDotsLabs/wild-workouts-go-ddd-example)
 - continuous refactorings with articles
@@ -608,7 +608,7 @@ func (h rescheduleTrainingHandler) Handle(ctx context.Context, cmd RescheduleTra
 }
 ```
 
-## Service: Aplication Service
+## Service: Application Service
 
 ```
 type HttpServer struct {
@@ -708,11 +708,11 @@ func (r TrainingsFirestoreRepository) UpdateTraining(ctx context.Context, traini
 
 - [Vlad Khonovov: Learning Domain-Driven Design](https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/) [O'Reilly, 2021]
 - [Eric Evans: Domain-Driven Design: Tacking software complexity](https://www.oreilly.com/library/view/domain-driven-design-tackling/0321125215/) [Addison-Wesley Professional, 2003]
-- [Eric Evans: Domaind-Driven Design Reference: Definitions and Pattern Summaries](https://www.domainlanguage.com/wp-content/uploads/2016/05/DDD_Reference_2015-03.pdf) [Addison-Wesley Professional, 2015]
+- [Eric Evans: Domain-Driven Design Reference: Definitions and Pattern Summaries](https://www.domainlanguage.com/wp-content/uploads/2016/05/DDD_Reference_2015-03.pdf) [Addison-Wesley Professional, 2015]
 - [Matthew Boyle: Domain-Driven Desing with Golang](https://www.packtpub.com/product/domain-driven-design-with-golang/9781804613450) [Packt, 2022]
 - [Lukáš Grolig: Software Architectures](https://is.muni.cz/predmet/fi/podzim2023/PV293) [FI MUNI, 2023]
 - [Awesome Go Educations](https://mehdihadeli.github.io/awesome-go-education/ddd/)
-- [ThreeDotsLab: Wild Wourkouts Go DDD example](https://github.com/ThreeDotsLabs/wild-workouts-go-ddd-example/tree/master)
+- [ThreeDotsLab: Wild Workouts Go DDD example](https://github.com/ThreeDotsLabs/wild-workouts-go-ddd-example/tree/master)
 - [ThreeDotsLab: Go With The Domain](https://threedots.tech/go-with-the-domain/)
 - [Domain-Driven Design Crew](https://github.com/ddd-crew)
 

@@ -1,0 +1,101 @@
+# Course Go
+Go Meetup Brno
+22 Oct 2024
+Tags: Go, Course
+
+Stanislav Zeman <zeman@standa.dev>
+Backend Developer at ModernTV
+https://standa.dev
+
+## About me
+
+- Pocket Gopher at ModernTV
+- Student, Tutor & Lecturer at FI MUNI
+- [https://standa.dev](https://standa.dev)
+
+.image assets/profile-picture.jpeg 350 _
+
+## Survey
+
+## Course Go
+
+## Talk goals
+
+- Give insight and overview
+- Spread awareness
+- Provide oportunity to:
+    - Reuse
+    - Get inspired
+    - Collaborate
+- Will **not** be giving the course now
+
+## A short background story
+
+- Starting out with Go
+- [RedHatOfficial/GoCourse](https://github.com/RedHatOfficial/GoCourse)
+    - Autumn 2023
+    - Half-semester course
+- Feedback
+    - Limited hands-on work
+
+## Course Go
+
+- Evolved from the Red Hat course
+- Designed and scheduled for academia
+    - Self-taught
+- Open-source ([CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en))
+    - [course-go.dev](https://course-go.dev) / [github.com/course-go](https://github.com/course-go)
+- Materials:
+    - [lectures](https://github.com/course-go/lectures)
+    - [exercises](https://github.com/course-go/exercises)
+    - [homework](https://github.com/course-go/homework)
+    - and others...
+- Currently running at FI MUNI
+
+## Go present
+
+- Presentation tool used for lectures
+    - Custom markdown format
+        - Collaboration
+- Often used by the members of the Go team
+- Runnable snippets
+
+[Go packages: golang/x/tools/present](https://pkg.go.dev/golang.org/x/tools/present)
+
+## Example
+
+.play assets/course-go/example.go
+
+## Currently covered topics
+
+- Language history, comparisons and motivation
+- Language fundamentals
+    - All keywords, concurrency mechanisms etc.
+- Advanced topics
+    - Testing, benchmarks, optimizations etc.
+- Application development
+    - REST APIs, database technologies, containerization etc.
+- Infrastructure, CI/CD & Observability
+    - Infrastructure provisioning basics
+    - Telemetry (Metrics, Logs, Traces)
+
+Lectures available at [lectures.course-go.dev](https://lectures.course-go.dev)
+
+##
+
+.image assets/course-go/schedule.png 600 _
+
+## Future goals
+
+- Possibly additional lectures
+    - GraphQL
+    - gRPC
+    - Auth
+    - EDC
+- Expand homework and exercise collections
+- Polish and maintain existing materials
+    - New versions
+
+## Interested?
+
+## Q & A

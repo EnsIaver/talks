@@ -4,8 +4,8 @@ This repository contains a collection of talk slides and other related materials
 
 ## Content
 
-1. [Introduction to DDD](introduction-to-ddd.slide)
-1. [Course Go](course-go.slide)
+1. [Introduction to DDD](slides/introduction-to-ddd.pdf)
+1. [Course Go](slides/course-go.pdf)
 
 ## Tooling
 
